@@ -1,0 +1,282 @@
+openapi: 3.0.1
+info:
+  title: Elasticsearch API documentation
+  description: Documentation for all endpoints
+  contact:
+    name: Oleg
+    url: https://vk.com/o1egs
+    email: tankistonline21@gamil.com
+  license:
+    name: ООО 'Очень Оригинально Олег'
+  version: 0.0.1
+servers:
+  - url: http://localhost:8081
+    description: Test
+  - url: http://localhost:8081
+    description: Fake prod
+paths:
+  /projects/update/{projectId}:
+    put:
+      tags:
+        - Elasticsearch
+      summary: Обновление ESProject по id проекта.
+      description: Обновление ESProject по id ProjectDTO, который хранится внутри.
+      operationId: updateESProjectByProjectId
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ESProject'
+        '404':
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                message: ESProject not found
+                httpStatus: NOT_FOUND
+                zonedDateTime: '2023-10-15T16:43:09.1118292Z'
+  /projects/create:
+    post:
+      tags:
+        - Elasticsearch
+      summary: Создание проекта.
+      description: >-
+        Создание нового проекта в индексе Elasticsearch, в теле запроса
+        передается ProjectDTO.
+      operationId: createESProject
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectDTO'
+        required: true
+      responses:
+        '201':
+          description: CREATED
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ESProject'
+        '400':
+          description: BAD REQUEST
+          content:
+            application/json:
+              example:
+                message: >-
+                  JSON parse error: Unexpected character ('d' (code 100)): was
+                  expecting comma to separate Object entries
+                httpStatus: BAD_REQUEST
+                zonedDateTime: '2023-10-15T14:50:27.876228Z'
+  /search/{searchText}:
+    get:
+      tags:
+        - Elasticsearch
+      summary: Метод поиска.
+      description: Метод возвращает массив проектов найденных по поисковому запросу.
+      operationId: search
+      parameters:
+        - name: searchText
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                - id: 0
+                  name: Простая верстка ничо сложного
+                  description: Всего лишь ищу senior React developer'a
+                  category: жесть
+                  budget: 50000
+                  projectStatus: ACTIVE
+                  timeframe: 100
+                  creationDate: null
+                  startedDate: null
+                  endDate: null
+                  customerId: 0
+                  producerId: 0
+                - id: 1
+                  name: Простая верстка ничо сложного
+                  description: Всего лишь ищу senior React developer'a
+                  category: жесть
+                  budget: 50000
+                  projectStatus: ACTIVE
+                  timeframe: 100
+                  creationDate: null
+                  startedDate: null
+                  endDate: null
+                  customerId: 0
+                  producerId: 0
+  /search/{searchText}/{page}/{size}:
+    get:
+      tags:
+        - Elasticsearch
+      summary: Метод поиска с пагинацией.
+      description: >-
+        Метод возвращает массив проектов заданой длины, найденных по поисковому
+        запросу.
+      operationId: search_1
+      parameters:
+        - name: searchText
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: size
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                - id: 0
+                  name: Простая верстка ничо сложного
+                  description: Всего лишь ищу senior React developer'a
+                  category: жесть
+                  budget: 50000
+                  projectStatus: ACTIVE
+                  timeframe: 100
+                  creationDate: null
+                  startedDate: null
+                  endDate: null
+                  customerId: 0
+                  producerId: 0
+                - id: 1
+                  name: Простая верстка ничо сложного
+                  description: Всего лишь ищу senior React developer'a
+                  category: жесть
+                  budget: 50000
+                  projectStatus: ACTIVE
+                  timeframe: 100
+                  creationDate: null
+                  startedDate: null
+                  endDate: null
+                  customerId: 0
+                  producerId: 0
+  /projects/{projectId}:
+    get:
+      tags:
+        - Elasticsearch
+      summary: Получение ESProject по id проекта.
+      description: Получение ESProject по id ProjectDTO, который хранится внутри.
+      operationId: getESProjectByProjectId
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ESProject'
+        '404':
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                message: ESProject not found
+                httpStatus: NOT_FOUND
+                zonedDateTime: '2023-10-15T16:43:09.1118292Z'
+  /projects/delete/{projectId}:
+    delete:
+      tags:
+        - Elasticsearch
+      summary: Удаление ESProject по id проекта.
+      description: Удаление ESProject по id ProjectDTO, который хранится внутри.
+      operationId: deleteESProjectByProjectId
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: NOT FOUND
+          content:
+            application/json:
+              example:
+                message: ESProject not found
+                httpStatus: NOT_FOUND
+                zonedDateTime: '2023-10-15T16:43:09.1118292Z'
+components:
+  schemas:
+    ProjectDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        budget:
+          type: number
+          format: double
+        projectStatus:
+          type: string
+        timeframe:
+          type: integer
+          format: int32
+        creationDate:
+          type: string
+          format: date-time
+        startedDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        customerId:
+          type: integer
+          format: int64
+        producerId:
+          type: integer
+          format: int64
+    ESProject:
+      type: object
+      properties:
+        id:
+          type: string
+        project:
+          $ref: '#/components/schemas/ProjectDTO'

@@ -1,16 +1,17 @@
 package ru.shtyrev.searchservice.services;
 
 import ru.shtyrev.searchservice.documents.ESProject;
+import ru.shtyrev.searchservice.dtos.ProjectDTO;
 import ru.shtyrev.searchservice.exceptions.ESProjectAlreadyExist;
 import ru.shtyrev.searchservice.exceptions.ESProjectNotFound;
-import ru.tasktrade.monolithservice.project.dtos.ProjectDTO;
 
 import java.util.List;
 
 public interface ESProjectService {
-    ESProject createESProject(ProjectDTO projectDTO) throws ESProjectAlreadyExist, ESProjectNotFound;
+    ESProject createESProject(ProjectDTO projectDTO) throws ESProjectNotFound;
 
     ESProject getESProjectById(String id) throws ESProjectNotFound;
+    ESProject getESProjectByProjectId(Long id) throws ESProjectNotFound;
 
     ESProject updateESProjectById(String id, ProjectDTO projectDTO) throws ESProjectNotFound;
 

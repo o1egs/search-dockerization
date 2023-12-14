@@ -1,0 +1,21 @@
+version: '3'
+services:
+  elasticsearch:
+    image: elasticsearch:7.11.1
+    ports:
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=0
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - elasticsearch
+    environment:
+      - spring.data.elasticsearch.cluster-nodes=elasticsearch:9200
+      - spring.data.elasticsearch.repositories.enabled=true
+      - spring.data.elasticsearch.conversions.enabled=tru

@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.shtyrev.searchservice.documents.ESProject;
-import ru.tasktrade.monolithservice.project.dtos.ProjectDTO;
+import ru.shtyrev.searchservice.dtos.ProjectDTO;
 
 import java.io.IOException;
 import java.util.ArrayList;

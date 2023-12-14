@@ -16,3 +16,5 @@ public interface ESProjectRepository extends ElasticsearchRepository<ESProject, 
     @Query(value = "{\"bool\": {\"must\": [{\"multi_match\": {\"query\": \"?0\", \"type\": \"best_fields\", \"operator\": \"or\", \"minimum_should_match\": 1, \"fuzziness\": \"AUTO\", \"boost\": 2.0, \"prefix_length\": 1}}]}}")
     List<ESProject> search(@Param("searchText") String searchText, Pageable pageable);
 }
+
+
