@@ -1,0 +1,16 @@
+spring:
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+      cluster-nodes:
+        - localhost:9200
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: project-topic-listener-1
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: ru.shtyrev.searchservice.kafka.ProjectMessageDeserializer
+
+server:
+  port: 8081
