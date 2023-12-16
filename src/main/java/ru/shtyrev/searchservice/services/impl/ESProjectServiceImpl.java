@@ -1,6 +1,7 @@
 package ru.shtyrev.searchservice.services.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.shtyrev.searchservice.documents.ESProject;
@@ -14,9 +15,14 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class ESProjectServiceImpl implements ESProjectService {
     private final ESProjectRepository projectRepository;
+
+    @Autowired
+    public ESProjectServiceImpl(ESProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
+    }
+
     @Override
     public ESProject createESProject(ProjectDTO projectDTO) throws ESProjectNotFound {
         Optional<ESProject> existingESProject = projectRepository
@@ -65,9 +71,9 @@ public class ESProjectServiceImpl implements ESProjectService {
             Double budget = projectDTO.getBudget();
             String projectStatus = projectDTO.getProjectStatus();
             Integer timeframe = projectDTO.getTimeframe();
-            LocalDateTime creationDate = projectDTO.getCreationDate();
-            LocalDateTime startedDate = projectDTO.getStartedDate();
-            LocalDateTime endDate = projectDTO.getEndDate();
+            String creationDate = projectDTO.getCreationDate();
+            String startedDate = projectDTO.getStartedDate();
+            String endDate = projectDTO.getEndDate();
             Long customerId = projectDTO.getCustomerId();
             Long producerId = projectDTO.getProducerId();
 //

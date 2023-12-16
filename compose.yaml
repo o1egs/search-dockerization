@@ -1,21 +1,35 @@
 version: '3'
 services:
   elasticsearch:
-    image: elasticsearch:7.11.1
+    image: elasticsearch:8.11.1
+    healthcheck:
+      test: [ "CMD-SHELL", "curl –silent –fail http://localhost:9200/_cluster/health || exit 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
     ports:
       - "9200:9200"
     environment:
       - discovery.type=single-node
-      - xpack.security.enabled=0
+      - xpack.security.enabled=false
+    networks:
+      - backend
   app:
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
-    depends_on:
-      - elasticsearch
     environment:
-      - spring.data.elasticsearch.cluster-nodes=elasticsearch:9200
-      - spring.data.elasticsearch.repositories.enabled=true
-      - spring.data.elasticsearch.conversions.enabled=tru
+      - SPRING_ELASTICSEARCH_URIS=elasticsearch:9200
+      - SPRING_DATA_ELASTICSEARCH_CLUSTER_NAME=docker-cluster
+      - SPRING_DATA_ELASTICSEARCH_REPOSITORIES_ENABLED=true
+      - SPRING_DATA_ELASTICSEARCH_PROPERTIES_REST_USE_SSL=false
+    networks:
+      - backend
+networks:
+  backend:
+    driver: bridge

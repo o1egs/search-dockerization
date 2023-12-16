@@ -9,15 +9,15 @@ spring:
         enabled: true
         converters:
           - class: ru.shtyrev.searchservice.utils.LocalDateTimeReadConverter
-  kafka:
-    consumer:
-      bootstrap-servers: localhost:9092
-      group-id: project-topic-listener-1
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: ru.shtyrev.searchservice.kafka.ProjectMessageDeserializer
+#  kafka:
+#    consumer:
+#      bootstrap-servers: localhost:9092
+#      group-id: project-topic-listener-1
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: ru.shtyrev.searchservice.kafka.ProjectMessageDeserializer
 
 server:
-  port: 8081
+  port: 8080
 
 #springdoc:
 #  swagger-ui:

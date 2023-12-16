@@ -15,9 +15,9 @@ public class ProjectDTO {
     private Double budget;
     private String projectStatus;
     private Integer timeframe;
-    private LocalDateTime creationDate;
-    private LocalDateTime startedDate;
-    private LocalDateTime endDate;
+    private String creationDate;
+    private String startedDate;
+    private String endDate;
     private Long customerId;
     private Long producerId;
 }

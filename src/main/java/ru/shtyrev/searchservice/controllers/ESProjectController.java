@@ -8,7 +8,9 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,39 +27,44 @@ import java.util.List;
 @RestController
 @RequestMapping("/")
 @CrossOrigin
-@RequiredArgsConstructor
 @Tag(name = "Elasticsearch")
 public class ESProjectController {
     private final ESProjectService projectService;
     private final SearchService searchService;
 
-//    @Operation(
-//            description = "Создание нового проекта в индексе Elasticsearch, в теле запроса передается ProjectDTO.",
-//            summary = "Создание проекта.",
-//            responses = {
-//                    @ApiResponse(
-//                            description = "CREATED",
-//                            responseCode = "201"
-//                    ),
-//                    @ApiResponse(
-//                            description = "BAD REQUEST",
-//                            responseCode = "400",
-//                            content = @Content(
-//                                    mediaType = "application/json",
-//                                    schema = @Schema(implementation = ESProjectException.class),
-//                                    examples = {
-//                                            @ExampleObject(
-//                                                    value = "{\n" +
-//                                                            "  \"message\": \"JSON parse error: Unexpected character ('d' (code 100)): was expecting comma to separate Object entries\",\n" +
-//                                                            "  \"httpStatus\": \"BAD_REQUEST\",\n" +
-//                                                            "  \"zonedDateTime\": \"2023-10-15T14:50:27.876228Z\"\n" +
-//                                                            "}"
-//                                            )
-//                                    }
-//                            )
-//                    )
-//            }
-//    )
+    @Autowired
+    public ESProjectController(ESProjectService projectService, SearchService searchService) {
+        this.projectService = projectService;
+        this.searchService = searchService;
+    }
+
+        @Operation(
+            description = "Создание нового проекта в индексе Elasticsearch, в теле запроса передается ProjectDTO.",
+            summary = "Создание проекта.",
+            responses = {
+                    @ApiResponse(
+                            description = "CREATED",
+                            responseCode = "201"
+                    ),
+                    @ApiResponse(
+                            description = "BAD REQUEST",
+                            responseCode = "400",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ESProjectException.class),
+                                    examples = {
+                                            @ExampleObject(
+                                                    value = "{\n" +
+                                                            "  \"message\": \"JSON parse error: Unexpected character ('d' (code 100)): was expecting comma to separate Object entries\",\n" +
+                                                            "  \"httpStatus\": \"BAD_REQUEST\",\n" +
+                                                            "  \"zonedDateTime\": \"2023-10-15T14:50:27.876228Z\"\n" +
+                                                            "}"
+                                            )
+                                    }
+                            )
+                    )
+            }
+    )
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping("/projects/create")
     public ResponseEntity<ESProject> createESProject(@RequestBody ProjectDTO projectDTO)
@@ -73,33 +80,33 @@ public class ESProjectController {
         return projectService.getESProjectById(esProjectId);
     }
 
-//    @Operation(
-//            description = "Получение ESProject по id ProjectDTO, который хранится внутри.",
-//            summary = "Получение ESProject по id проекта.",
-//            responses = {
-//                    @ApiResponse(
-//                            description = "OK",
-//                            responseCode = "200"
-//                    ),
-//                    @ApiResponse(
-//                            description = "NOT FOUND",
-//                            responseCode = "404",
-//                            content = @Content(
-//                                    mediaType = "application/json",
-//                                    schema = @Schema(implementation = ESProjectException.class),
-//                                    examples = {
-//                                            @ExampleObject(
-//                                                    value = "{\n" +
-//                                                            "  \"message\": \"ESProject not found\",\n" +
-//                                                            "  \"httpStatus\": \"NOT_FOUND\",\n" +
-//                                                            "  \"zonedDateTime\": \"2023-10-15T16:43:09.1118292Z\"\n" +
-//                                                            "}"
-//                                            )
-//                                    }
-//                            )
-//                    )
-//            }
-//    )
+    @Operation(
+            description = "Получение ESProject по id ProjectDTO, который хранится внутри.",
+            summary = "Получение ESProject по id проекта.",
+            responses = {
+                    @ApiResponse(
+                            description = "OK",
+                            responseCode = "200"
+                    ),
+                    @ApiResponse(
+                            description = "NOT FOUND",
+                            responseCode = "404",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ESProjectException.class),
+                                    examples = {
+                                            @ExampleObject(
+                                                    value = "{\n" +
+                                                            "  \"message\": \"ESProject not found\",\n" +
+                                                            "  \"httpStatus\": \"NOT_FOUND\",\n" +
+                                                            "  \"zonedDateTime\": \"2023-10-15T16:43:09.1118292Z\"\n" +
+                                                            "}"
+                                            )
+                                    }
+                            )
+                    )
+            }
+    )
     @GetMapping("/projects/{projectId}")
     ResponseEntity<ESProject> getESProjectByProjectId(@PathVariable Long projectId) throws ESProjectNotFound {
         ESProject esProject = projectService.getESProjectByProjectId(projectId);
@@ -113,33 +120,33 @@ public class ESProjectController {
         return projectService.updateESProjectById(esProjectId, projectDTO);
     }
 
-//    @Operation(
-//            description = "Обновление ESProject по id ProjectDTO, который хранится внутри.",
-//            summary = "Обновление ESProject по id проекта.",
-//            responses = {
-//                    @ApiResponse(
-//                            description = "OK",
-//                            responseCode = "200"
-//                    ),
-//                    @ApiResponse(
-//                            description = "NOT FOUND",
-//                            responseCode = "404",
-//                            content = @Content(
-//                                    mediaType = "application/json",
-//                                    schema = @Schema(implementation = ESProjectException.class),
-//                                    examples = {
-//                                            @ExampleObject(
-//                                                    value = "{\n" +
-//                                                            "  \"message\": \"ESProject not found\",\n" +
-//                                                            "  \"httpStatus\": \"NOT_FOUND\",\n" +
-//                                                            "  \"zonedDateTime\": \"2023-10-15T16:43:09.1118292Z\"\n" +
-//                                                            "}"
-//                                            )
-//                                    }
-//                            )
-//                    )
-//            }
-//    )
+    @Operation(
+            description = "Обновление ESProject по id ProjectDTO, который хранится внутри.",
+            summary = "Обновление ESProject по id проекта.",
+            responses = {
+                    @ApiResponse(
+                            description = "OK",
+                            responseCode = "200"
+                    ),
+                    @ApiResponse(
+                            description = "NOT FOUND",
+                            responseCode = "404",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ESProjectException.class),
+                                    examples = {
+                                            @ExampleObject(
+                                                    value = "{\n" +
+                                                            "  \"message\": \"ESProject not found\",\n" +
+                                                            "  \"httpStatus\": \"NOT_FOUND\",\n" +
+                                                            "  \"zonedDateTime\": \"2023-10-15T16:43:09.1118292Z\"\n" +
+                                                            "}"
+                                            )
+                                    }
+                            )
+                    )
+            }
+    )
     @PutMapping("/projects/update/{projectId}")
     ESProject updateESProjectByProjectId(@PathVariable Long projectId, @RequestBody ProjectDTO projectDTO)
             throws ESProjectNotFound {
@@ -153,39 +160,38 @@ public class ESProjectController {
     }
 
 
-//    @Operation(
-//            description = "Удаление ESProject по id ProjectDTO, который хранится внутри.",
-//            summary = "Удаление ESProject по id проекта.",
-//            responses = {
-//                    @ApiResponse(
-//                            description = "OK",
-//                            responseCode = "200"
-//                    ),
-//                    @ApiResponse(
-//                            description = "NOT FOUND",
-//                            responseCode = "404",
-//                            content = @Content(
-//                                    mediaType = "application/json",
-//                                    schema = @Schema(implementation = ESProjectException.class),
-//                                    examples = {
-//                                            @ExampleObject(
-//                                                    value = "{\n" +
-//                                                            "  \"message\": \"ESProject not found\",\n" +
-//                                                            "  \"httpStatus\": \"NOT_FOUND\",\n" +
-//                                                            "  \"zonedDateTime\": \"2023-10-15T16:43:09.1118292Z\"\n" +
-//                                                            "}"
-//                                            )
-//                                    }
-//                            )
-//                    )
-//            }
-//    )
+    @Operation(
+            description = "Удаление ESProject по id ProjectDTO, который хранится внутри.",
+            summary = "Удаление ESProject по id проекта.",
+            responses = {
+                    @ApiResponse(
+                            description = "OK",
+                            responseCode = "200"
+                    ),
+                    @ApiResponse(
+                            description = "NOT FOUND",
+                            responseCode = "404",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ESProjectException.class),
+                                    examples = {
+                                            @ExampleObject(
+                                                    value = "{\n" +
+                                                            "  \"message\": \"ESProject not found\",\n" +
+                                                            "  \"httpStatus\": \"NOT_FOUND\",\n" +
+                                                            "  \"zonedDateTime\": \"2023-10-15T16:43:09.1118292Z\"\n" +
+                                                            "}"
+                                            )
+                                    }
+                            )
+                    )
+            }
+    )
     @DeleteMapping("/projects/delete/{projectId}")
     void deleteESProjectByProjectId(@PathVariable Long projectId) throws ESProjectNotFound {
         projectService.deleteESProjectByProjectId(projectId);
     }
 
-    @Hidden
     @GetMapping("/projects")
     ResponseEntity<List<ProjectDTO>> findAllProjects() {
         List<ProjectDTO> projects = projectService.findAllProjects();
@@ -198,102 +204,102 @@ public class ESProjectController {
         return projectService.findAllESProjects();
     }
 
-//    @Operation(
-//            description = "Метод возвращает массив проектов найденных по поисковому запросу.",
-//            summary = "Метод поиска.",
-//            responses = @ApiResponse(
-//                    description = "OK",
-//                    responseCode = "200",
-//                    content = @Content(
-//                            mediaType = "application/json",
-//                            examples = {
-//                                    @ExampleObject(
-//                                            value = "[\n" +
-//                                                    "  {\n" +
-//                                                    "    \"id\": 0,\n" +
-//                                                    "    \"name\": \"Простая верстка ничо сложного\",\n" +
-//                                                    "    \"description\": \"Всего лишь ищу senior React developer'a\",\n" +
-//                                                    "    \"category\": \"жесть\",\n" +
-//                                                    "    \"budget\": 50000,\n" +
-//                                                    "    \"projectStatus\": \"ACTIVE\",\n" +
-//                                                    "    \"timeframe\": 100,\n" +
-//                                                    "    \"creationDate\": null,\n" +
-//                                                    "    \"startedDate\": null,\n" +
-//                                                    "    \"endDate\": null,\n" +
-//                                                    "    \"customerId\": 0,\n" +
-//                                                    "    \"producerId\": 0\n" +
-//                                                    "  },\n" +
-//                                                    "  {\n" +
-//                                                    "    \"id\": 1,\n" +
-//                                                    "    \"name\": \"Простая верстка ничо сложного\",\n" +
-//                                                    "    \"description\": \"Всего лишь ищу senior React developer'a\",\n" +
-//                                                    "    \"category\": \"жесть\",\n" +
-//                                                    "    \"budget\": 50000,\n" +
-//                                                    "    \"projectStatus\": \"ACTIVE\",\n" +
-//                                                    "    \"timeframe\": 100,\n" +
-//                                                    "    \"creationDate\": null,\n" +
-//                                                    "    \"startedDate\": null,\n" +
-//                                                    "    \"endDate\": null,\n" +
-//                                                    "    \"customerId\": 0,\n" +
-//                                                    "    \"producerId\": 0\n" +
-//                                                    "  }\n" +
-//                                                    "]"
-//                                    )
-//                            }
-//                    )
-//            )
-//    )
+    @Operation(
+            description = "Метод возвращает массив проектов найденных по поисковому запросу.",
+            summary = "Метод поиска.",
+            responses = @ApiResponse(
+                    description = "OK",
+                    responseCode = "200",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = {
+                                    @ExampleObject(
+                                            value = "[\n" +
+                                                    "  {\n" +
+                                                    "    \"id\": 0,\n" +
+                                                    "    \"name\": \"Простая верстка ничо сложного\",\n" +
+                                                    "    \"description\": \"Всего лишь ищу senior React developer'a\",\n" +
+                                                    "    \"category\": \"жесть\",\n" +
+                                                    "    \"budget\": 50000,\n" +
+                                                    "    \"projectStatus\": \"ACTIVE\",\n" +
+                                                    "    \"timeframe\": 100,\n" +
+                                                    "    \"creationDate\": null,\n" +
+                                                    "    \"startedDate\": null,\n" +
+                                                    "    \"endDate\": null,\n" +
+                                                    "    \"customerId\": 0,\n" +
+                                                    "    \"producerId\": 0\n" +
+                                                    "  },\n" +
+                                                    "  {\n" +
+                                                    "    \"id\": 1,\n" +
+                                                    "    \"name\": \"Простая верстка ничо сложного\",\n" +
+                                                    "    \"description\": \"Всего лишь ищу senior React developer'a\",\n" +
+                                                    "    \"category\": \"жесть\",\n" +
+                                                    "    \"budget\": 50000,\n" +
+                                                    "    \"projectStatus\": \"ACTIVE\",\n" +
+                                                    "    \"timeframe\": 100,\n" +
+                                                    "    \"creationDate\": null,\n" +
+                                                    "    \"startedDate\": null,\n" +
+                                                    "    \"endDate\": null,\n" +
+                                                    "    \"customerId\": 0,\n" +
+                                                    "    \"producerId\": 0\n" +
+                                                    "  }\n" +
+                                                    "]"
+                                    )
+                            }
+                    )
+            )
+    )
     @GetMapping("/search/{searchText}")
     public ResponseEntity<List<ProjectDTO>> search(@PathVariable String searchText)
             throws IOException {
         return ResponseEntity.ok(searchService.search(searchText));
     }
 
-//    @Operation(
-//            description = "Метод возвращает массив проектов заданой длины, найденных по поисковому запросу.",
-//            summary = "Метод поиска с пагинацией.",
-//            responses = @ApiResponse(
-//                    description = "OK",
-//                    responseCode = "200",
-//                    content = @Content(
-//                            mediaType = "application/json",
-//                            examples = {
-//                                    @ExampleObject(
-//                                            value = "[\n" +
-//                                                    "  {\n" +
-//                                                    "    \"id\": 0,\n" +
-//                                                    "    \"name\": \"Простая верстка ничо сложного\",\n" +
-//                                                    "    \"description\": \"Всего лишь ищу senior React developer'a\",\n" +
-//                                                    "    \"category\": \"жесть\",\n" +
-//                                                    "    \"budget\": 50000,\n" +
-//                                                    "    \"projectStatus\": \"ACTIVE\",\n" +
-//                                                    "    \"timeframe\": 100,\n" +
-//                                                    "    \"creationDate\": null,\n" +
-//                                                    "    \"startedDate\": null,\n" +
-//                                                    "    \"endDate\": null,\n" +
-//                                                    "    \"customerId\": 0,\n" +
-//                                                    "    \"producerId\": 0\n" +
-//                                                    "  },\n" +
-//                                                    "  {\n" +
-//                                                    "    \"id\": 1,\n" +
-//                                                    "    \"name\": \"Простая верстка ничо сложного\",\n" +
-//                                                    "    \"description\": \"Всего лишь ищу senior React developer'a\",\n" +
-//                                                    "    \"category\": \"жесть\",\n" +
-//                                                    "    \"budget\": 50000,\n" +
-//                                                    "    \"projectStatus\": \"ACTIVE\",\n" +
-//                                                    "    \"timeframe\": 100,\n" +
-//                                                    "    \"creationDate\": null,\n" +
-//                                                    "    \"startedDate\": null,\n" +
-//                                                    "    \"endDate\": null,\n" +
-//                                                    "    \"customerId\": 0,\n" +
-//                                                    "    \"producerId\": 0\n" +
-//                                                    "  }\n" +
-//                                                    "]"
-//                                    )
-//                            }
-//                    )
-//            )
-//    )
+    @Operation(
+            description = "Метод возвращает массив проектов заданой длины, найденных по поисковому запросу.",
+            summary = "Метод поиска с пагинацией.",
+            responses = @ApiResponse(
+                    description = "OK",
+                    responseCode = "200",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = {
+                                    @ExampleObject(
+                                            value = "[\n" +
+                                                    "  {\n" +
+                                                    "    \"id\": 0,\n" +
+                                                    "    \"name\": \"Простая верстка ничо сложного\",\n" +
+                                                    "    \"description\": \"Всего лишь ищу senior React developer'a\",\n" +
+                                                    "    \"category\": \"жесть\",\n" +
+                                                    "    \"budget\": 50000,\n" +
+                                                    "    \"projectStatus\": \"ACTIVE\",\n" +
+                                                    "    \"timeframe\": 100,\n" +
+                                                    "    \"creationDate\": null,\n" +
+                                                    "    \"startedDate\": null,\n" +
+                                                    "    \"endDate\": null,\n" +
+                                                    "    \"customerId\": 0,\n" +
+                                                    "    \"producerId\": 0\n" +
+                                                    "  },\n" +
+                                                    "  {\n" +
+                                                    "    \"id\": 1,\n" +
+                                                    "    \"name\": \"Простая верстка ничо сложного\",\n" +
+                                                    "    \"description\": \"Всего лишь ищу senior React developer'a\",\n" +
+                                                    "    \"category\": \"жесть\",\n" +
+                                                    "    \"budget\": 50000,\n" +
+                                                    "    \"projectStatus\": \"ACTIVE\",\n" +
+                                                    "    \"timeframe\": 100,\n" +
+                                                    "    \"creationDate\": null,\n" +
+                                                    "    \"startedDate\": null,\n" +
+                                                    "    \"endDate\": null,\n" +
+                                                    "    \"customerId\": 0,\n" +
+                                                    "    \"producerId\": 0\n" +
+                                                    "  }\n" +
+                                                    "]"
+                                    )
+                            }
+                    )
+            )
+    )
     @GetMapping("/search/{searchText}/{page}/{size}")
     public ResponseEntity<List<ProjectDTO>> search(@PathVariable String searchText,
                                                    @PathVariable int page,
