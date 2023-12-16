@@ -15,7 +15,6 @@
 ## Описание API
 - PUT    /projects/update/{projectId}
 - POST   /projects/create
-- GET    /search/{searchText}
 - GET    /search/{searchText}/{page}/{size}
 - GET    /projects/{projectId}
 - DELETE /projects/delete/{projectId}
