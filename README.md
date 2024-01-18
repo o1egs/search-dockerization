@@ -7,10 +7,10 @@
 - Maven установлен на вашем компьютере
 
 ## Сборка проекта
--  /scripts/build.sh
+-  build.sh
  
 ## Запуск проекта
--  /scripts/run.sh
+-  run.sh
 
 ## Описание API
 - PUT    /projects/update/{projectId}
