@@ -11,6 +11,8 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data:rw
   app:
     build:
       context: .
@@ -27,3 +29,6 @@ services:
 networks:
   backend:
     driver: bridge
+volumes:
+  elasticsearch_data:
+    driver: local
