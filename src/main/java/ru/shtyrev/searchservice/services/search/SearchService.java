@@ -7,7 +7,6 @@ import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch._types.query_dsl.TextQueryType;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.shtyrev.searchservice.documents.ESProject;
@@ -49,7 +48,6 @@ public class SearchService {
         return getProducts(searchResponse);
     }
 
-    @NotNull
     public static List<ProjectDTO> getProducts(SearchResponse<ESProject> searchResponse) {
         List<Hit<ESProject>> listOfHits= searchResponse.hits().hits();
         List<ProjectDTO> listOfProducts  = new ArrayList<>();

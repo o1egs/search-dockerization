@@ -2,10 +2,7 @@ package ru.shtyrev.searchservice.kafka;
 
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-import ru.shtyrev.searchservice.exceptions.ESProjectAlreadyExist;
-import ru.shtyrev.searchservice.exceptions.ESProjectNotFound;
 import ru.shtyrev.searchservice.services.ESProjectService;
 
 @Service
